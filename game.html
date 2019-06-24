@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px red solid;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="id-canvas" height="300px" width="400px"></canvas>
+</body>
+<script>
+    var imgFromPath = function (path) {
+        var img = new Image();
+        img.onload = function () {
+            Context.drawImage(img, x, y);
+        }
+        img.src = path;
+
+        return img
+    }
+    var paddle = function () {
+        var image = imgFromPath('paddle.png')
+        var o = {
+            image: image,
+            x: 100,
+            y: 100,
+            speed: 3,
+        }
+        return o
+
+    }
+    var canvas = document.getElementById('id-canvas');
+    var Context = canvas.getContext('2d');
+
+
+
+
+
+    var leftDown = false
+    var rightDown = false
+
+    //event
+    window.addEventListener('keydown', function (event) {
+        //    console.log(event)
+        var k = event.key
+        if (k == 'a') {
+            x -= 10
+            leftDown = true
+        } else if (k == 'd') {
+            rightDown = true
+        }
+    })
+    window.addEventListener('keyup', function (event) {
+        //    console.log(event)
+        var k = event.key
+        if (k == 'a') {
+            leftDown = false
+        } else if (k == 'd') {
+            rightDown = false
+        }
+    })
+
+    setInterval(function () {
+        //update x and y
+        if (leftDown) {
+            paddle.x -= paddle.speed
+        } else if (rightDown) {
+            paddle.x += paddle.speed
+        }
+        //draw
+        Context.clearRect(0, 0, canvas.width, canvas.height)
+        Context.drawImage(paddle.image, paddle.x, paddle.y);
+
+    }, 1000 / 30)
+
+</script>
+
+</html>
